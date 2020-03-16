@@ -137,9 +137,9 @@
           // outputMessage.hidden = true;
           // outputData.parentElement.hidden = false;
           // outputData.innerText = code.data;
-          if (code.data == "masbie") {
+          if (code.data == "WG") {
             var html ="";
-            html += '<a id="to" href="http://www.masbie.com"><span></span></a>&nbsp;';
+            html += '<a id="to" href="http://www.wikagedung.co.id"><span></span></a>&nbsp;';
             $('#direct').append(html);
             $('#to span').trigger('click');
           }else{
