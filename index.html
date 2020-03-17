@@ -92,9 +92,13 @@
     // var outputData = document.getElementById("outputData");
 
     var pathArray = window.location.pathname.split('/');
-
-    console.log('pathArray[1] :', pathArray[1]);
-
+    
+    var isiBarcodeDatabase = "WG"
+    new URL(location.href).searchParams.get('nip')
+    const params = new URL(location.href).searchParams;
+    const nip = params.get('nip');
+    // console.log('pathArray[1] :', pathArray[1]);
+    // console.log('nip :', nip);
 
 
 
@@ -114,6 +118,33 @@
       video.play();
       requestAnimationFrame(tick);
     });
+    // $.ajax({
+    //   type: "post",
+    //   url: "http://webjob.wikagedung.co.id/wg_absen/Webscan/get_barcode/",
+    //   data: "data",
+    //   dataType: "dataType",
+    //   success: function (response) {
+        
+    //   }
+    // });
+    
+    // var today = new Date();
+    // var time = today.getHours();
+    var auto_refresh = setInterval(
+    function () {
+        $.ajax({
+            url : "http://webjob.wikagedung.co.id/wg_absen/Webscan/get_barcode",
+            type: "POST",
+            dataType: "JSON",
+            success: function(data) {
+              console.log('data :', data);
+            },
+            error: function (request, error) {
+                console.log("ERROR!" + error.message);
+            },
+        });
+      }, 1000
+    ); // refresh every 10000 milliseconds
 
     function tick() {
       loadingMessage.innerText = "⌛ Menunggu...."
@@ -137,9 +168,10 @@
           // outputMessage.hidden = true;
           // outputData.parentElement.hidden = false;
           // outputData.innerText = code.data;
-          if (code.data == "WG") {
+          if (code.data == isiBarcodeDatabase) {
             var html ="";
-            html += '<a id="to" href="http://www.wikagedung.co.id"><span></span></a>&nbsp;';
+            // html += '<a id="to" href="http://www.wikagedung.co.id"><span></span></a>&nbsp;';
+            html += '<a id="to" href="http://webjob.wikagedung.co.id/wg_absen/Absensi/scanmeqr/'+nip+'/'+isiBarcodeDatabase+'"><span></span></a>&nbsp;';
             $('#direct').append(html);
             $('#to span').trigger('click');
           }else{
